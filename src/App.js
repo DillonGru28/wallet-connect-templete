@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { UseWalletProvider } from "use-wallet";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+} from "react-router-dom";
+import BlockchainProvider from "./context"
+import Home from "./views/home"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <UseWalletProvider
+                autoConnect={true}
+                connectors={{
+                    walletconnect: { rpc: { 1: 'https://main-light.eth.linkpool.io/', 3: 'https://rpc-url', 4002: 'https://ftm-test.babylonswap.finance' } }
+                }}>
+                <BlockchainProvider>
+                    <Router>
+                        <Routes>
+                            <Route exact path="/" element={<Home />} />
+                        </Routes>
+                    </Router>
+                </BlockchainProvider>
+            </UseWalletProvider>
+        </div>
+    );
 }
 
 export default App;
